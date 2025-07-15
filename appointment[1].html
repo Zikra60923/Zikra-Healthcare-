@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Appointment | Zikra Healthcare</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00796b;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      background: #00796b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #004d40;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Book an Appointment</h1>
+
+<form action="https://formspree.io/f/your-form-id" method="POST">
+  <label for="name">Full Name</label>
+  <input type="text" id="name" name="name" required />
+
+  <label for="phone">Phone Number</label>
+  <input type="tel" id="phone" name="phone" required />
+
+  <label for="email">Email Address</label>
+  <input type="email" id="email" name="_replyto" required />
+
+  <label for="doctor">Select Doctor</label>
+  <select id="doctor" name="doctor" required onchange="updateSpecialty()">
+    <option value="">-- Select Doctor --</option>
+    <option value="Dr. Asif">Dr. Asif</option>
+    <option value="Dr. Mustafa Bashir">Dr. Mustafa Bashir</option>
+  </select>
+
+  <label for="specialty">Specialty</label>
+  <input type="text" id="specialty" name="specialty" readonly placeholder="Specialty will appear here" />
+
+  <label for="date">Preferred Appointment Date</label>
+  <input type="date" id="date" name="appointment_date" required />
+
+  <label for="message">Additional Message (optional)</label>
+  <textarea name="message" rows="4"></textarea>
+
+  <button type="submit">Submit Appointment</button>
+</form>
+
+<script>
+  function updateSpecialty() {
+    const doctor = document.getElementById("doctor").value;
+    const specialtyInput = document.getElementById("specialty");
+
+    const specialties = {
+      "Dr. Asif": "Orthopaedics (Bone, Joint, Spine, Trauma, Sports Injuries)",
+      "Dr. Mustafa Bashir": "Cardiology (Heart, BP, Internal Medicine)"
+    };
+
+    specialtyInput.value = specialties[doctor] || "";
+  }
+</script>
+
+</body>
+</html>
