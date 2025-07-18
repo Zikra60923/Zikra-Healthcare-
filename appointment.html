@@ -31,7 +31,7 @@
       display: block;
       margin-top: 15px;
     }
-    select, input[type="date"] {
+    select, input[type="date"], input[type="time"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -56,6 +56,72 @@
       background-color: #004d40;
     }
   </style>
+  <script>
+    function updateSpecialtyAndDate() {
+      const doctorSelect = document.getElementById('doctor');
+      const specialtySelect = document.getElementById('specialty');
+      const dateInput = document.getElementById('appointment_date');
+      const timeInput = document.getElementById('appointment_time');
+
+      const specialties = {
+        'dr_asif': [
+          'Bone and Joint',
+          'Trauma',
+          'Sports Injuries',
+          'Paediatric Orthopaedics'
+        ],
+        'dr_mustafa': [
+          'Heart',
+          'BP',
+          'Cardiology',
+          'Internal Medicine',
+          'Pulmonology'
+        ],
+        'dr_saima': [
+          'Eye Checkups',
+          'Cataracts',
+          'Conjunctivitis'
+        ]
+      };
+
+      const allowedDays = {
+        'dr_asif': 3, // Wednesday
+        'dr_mustafa': 4, // Thursday
+        'dr_saima': 3 // Wednesday
+      };
+
+      const selectedDoctor = doctorSelect.value;
+      const selectedSpecialties = specialties[selectedDoctor];
+
+      // Update specialties
+      specialtySelect.innerHTML = '';
+      selectedSpecialties.forEach(spec => {
+        const option = document.createElement('option');
+        option.value = spec.toLowerCase().replace(/\s+/g, '_');
+        option.textContent = spec;
+        specialtySelect.appendChild(option);
+      });
+
+      // Restrict date input
+      dateInput.value = '';
+      dateInput.oninput = function () {
+        const selectedDate = new Date(this.value);
+        if (selectedDate.getDay() !== allowedDays[selectedDoctor]) {
+          alert("This doctor is only available on " + ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][allowedDays[selectedDoctor]] + ". Please choose a valid day.");
+          this.value = '';
+        }
+      };
+
+      // Set minimum time
+      timeInput.value = '';
+      timeInput.min = "16:30";
+    }
+
+    window.onload = function () {
+      updateSpecialtyAndDate();
+      document.getElementById('doctor').addEventListener('change', updateSpecialtyAndDate);
+    };
+  </script>
 </head>
 <body>
   <header>
@@ -73,13 +139,14 @@
 
     <label for="specialty">Select Specialty:</label>
     <select id="specialty" name="specialty">
-      <option value="orthopedics">Orthopedics</option>
-      <option value="cardiology">Cardiology</option>
-      <option value="ophthalmology">Ophthalmology (Eye Checkups, Cataracts, Conjunctivitis)</option>
+      <!-- Specialty options will be populated dynamically -->
     </select>
 
     <label for="appointment_date">Select Appointment Date:</label>
     <input type="date" id="appointment_date" name="appointment_date" required />
+
+    <label for="appointment_time">Select Appointment Time:</label>
+    <input type="time" id="appointment_time" name="appointment_time" min="16:30" required />
 
     <p class="note">Note: Dr. Asif and Dr. Saima Firdous are only available on <strong>Wednesdays</strong> after 4:30 PM. <br>
       Dr. Mustafa is only available on <strong>Thursdays</strong> after 4:30 PM.</p>
