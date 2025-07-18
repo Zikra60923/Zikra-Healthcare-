@@ -72,6 +72,7 @@ A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
   <select id="doctor" name="doctor" required onchange="updateSpecialty()">
     <option value="">-- Select Doctor --</option>
     <option value="Dr. Asif">Dr. Asif</option>
+    <option value="Dr. Saima Firdou">Dr. Saima Firdous</option>
     <option value="Dr. Mustafa Bashir">Dr. Mustafa Bashir</option>
   </select>
 
@@ -93,7 +94,8 @@ A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
     const specialtyInput = document.getElementById("specialty");
 
     const specialties = {
-      "Dr. Asif": "Orthopaedics (Bone, Joint, Spine, Trauma, Sports Injuries)",
+      "Dr. Asif": "Orthopaedics (Bone and Joint, Spine, Trauma, Sports Injuries)",
+      "Dr. Saima Firdous": "Opthalmology (Eye checkup, Cataracts, Glaucoma,Conjuctivitis)"
       "Dr. Mustafa Bashir": "Cardiology (Heart, BP, Internal Medicine)"
     };
 
