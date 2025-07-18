@@ -77,6 +77,20 @@ A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
 
   <label for="specialty">Specialty</label>
   <input type="text" id="specialty" name="specialty" readonly placeholder="Specialty will appear here" />
+  
+<script>
+  function updateSpecialty() {
+    const doctor = document.getElementById("doctor").value;
+    const specialtyInput = document.getElementById("specialty");
+
+    const specialties = {
+      "Dr. Asif": "Orthopaedics (Bone and Joint, Spine, Trauma, Sports Injuries)"
+      "Dr. Mustafa Bashir": "Cardiology (Heart, BP, Internal Medicine)"
+    };
+    
+    specialtyInput.value = specialties[doctor] || "";
+  }
+</script>
 
   <label for="date">Preferred Appointment Date</label>
   <input type="date" id="date" name="appointment_date" required />
@@ -87,19 +101,6 @@ A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
   <button type="submit">Submit Appointment</button>
 </form>
 
-<script>
-  function updateSpecialty() {
-    const doctor = document.getElementById("doctor").value;
-    const specialtyInput = document.getElementById("specialty");
-
-    const specialties = {
-      "Dr. Asif": "Orthopaedics (Bone and Joint, Spine, Trauma, Sports Injuries)";
-      "Dr. Mustafa Bashir": "Cardiology (Heart, BP, Internal Medicine)"
-    };
-    
-    specialtyInput.value = specialties[doctor] || "";
-  }
-</script>
 
 </body>
 </html>
