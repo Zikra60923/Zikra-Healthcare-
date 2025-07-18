@@ -50,8 +50,7 @@
 </head>
 <body>
   <div id="clinic-details">
-               <h1>Zikra Healthcare 
-A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
+  <h1>Zikra Healthcare A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
   <p>Address: Sangrama Sopore,Near Grameen Bank</p>
   <p>Phone: +91-8899960923</p>
   <p>Email: zikrahealthcare2@gmail.com</p>
@@ -87,6 +86,19 @@ A Multispeciality Diagnostic and Clinical Laboratory Center</h1>
   <button type="submit">Submit Appointment</button>
 </form>
 
+<script>
+  function updateSpecialty() {
+    const doctor = document.getElementById("doctor").value;
+    const specialtyInput = document.getElementById("specialty");
+
+    const specialties = {
+      "Dr. Asif": "Orthopaedics (Bone, Joint, Spine, Trauma, Sports Injuries)",
+      "Dr. Mustafa Bashir": "Cardiology (Heart, BP, Internal Medicine)"
+    };
+
+    specialtyInput.value = specialties[doctor] || "";
+  }
+</script>
 
 </body>
 </html>
