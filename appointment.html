@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Book Appointment | Zikra Healthcare</title>
   <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Flatpickr Calendar CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -52,7 +56,7 @@
       display: block;
       margin-top: 15px;
     }
-    select, input[type="date"], input[type="time"], input[type="text"], input[type="tel"] {
+    select, input[type="text"], input[type="tel"], input[type="time"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -77,96 +81,11 @@
       background-color: #004d40;
     }
   </style>
- <script>
-  function updateSpecialtyAndDate() {
-    const doctorSelect = document.getElementById('doctor');
-    const specialtySelect = document.getElementById('specialty');
-    const dateInput = document.getElementById('appointment_date');
-    const timeInput = document.getElementById('appointment_time');
 
-    const specialties = {
-      'dr_asif': [
-        'Bone and Joint',
-        'Trauma',
-        'Sports Injuries',
-        'Paediatric Orthopaedics'
-      ],
-      'dr_mustafa': [
-        'Heart',
-        'BP',
-        'Cardiology',
-        'Internal Medicine',
-        'Pulmonology'
-      ],
-      'dr_saima': [
-        'Eye Checkups',
-        'Cataracts',
-        'Conjunctivitis'
-      ]
-    };
-
-    const selectedDoctor = doctorSelect.value;
-    const selectedSpecialties = specialties[selectedDoctor];
-
-    // Clear and add specialties
-    specialtySelect.innerHTML = '';
-    selectedSpecialties.forEach(spec => {
-      const option = document.createElement('option');
-      option.value = spec.toLowerCase().replace(/\s+/g, '_');
-      option.textContent = spec;
-      specialtySelect.appendChild(option);
-    });
-
-    // Reset date & time inputs
-    dateInput.value = '';
-    timeInput.value = '';
-    timeInput.min = "16:30";
-
-    // Restrict available dates based on doctor
-    disableInvalidDates();  // ✅ PLACE IT HERE
-  }
-
-  function disableInvalidDates() {
-    const doctorSelect = document.getElementById('doctor');
-    const dateInput = document.getElementById('appointment_date');
-    const selectedDoctor = doctorSelect.value;
-
-    const allowedDay = {
-      'dr_asif': 3,     // Wednesday
-      'dr_mustafa': 4,  // Thursday
-      'dr_saima': 3     // Wednesday
-    }[selectedDoctor];
-
-    // Set min and max date range
-    dateInput.value = '';
-    const today = new Date();
-    const maxDate = new Date();
-    maxDate.setMonth(maxDate.getMonth() + 2);
-
-    const min = today.toISOString().split("T")[0];
-    const max = maxDate.toISOString().split("T")[0];
-
-    dateInput.setAttribute("min", min);
-    dateInput.setAttribute("max", max);
-
-    // Check selected date
-    dateInput.oninput = function () {
-      const selected = new Date(this.value);
-      if (selected.getDay() !== allowedDay) {
-        alert("Selected doctor is only available on " +
-          ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][allowedDay]);
-        this.value = '';
-      }
-    };
-  }
-
-  window.onload = function () {
-    updateSpecialtyAndDate();
-    document.getElementById('doctor').addEventListener('change', updateSpecialtyAndDate);
-  };
-</script>
-
+  <!-- Flatpickr Calendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
+
 <body>
   <header>
     <h1><a href="index.html" style="color:white; text-decoration: none;">Book Appointment</a></h1>
@@ -180,7 +99,7 @@
 
   <div class="sub-header">
     Sangrama Sopore, Near Grameen Bank | 📞 Contact: 8899960923<br />
-    Facilities: Digital X Ray, ECG all leads (Female Technician Available), Clinical Laboratory Tests, ABPM (24 Hours Ambulatory Blood Pressure Monitoring), Holter Monitoring, PFT
+    Facilities: Digital X Ray, ECG all leads (Female Technician Available), Clinical Laboratory Tests, ABPM, Holter Monitoring, PFT
   </div>
 
   <form id="appointmentForm" action="https://formspree.io/f/xldledgn" method="POST">
@@ -195,15 +114,19 @@
 
     <label for="doctor">Select Doctor:</label>
     <select id="doctor" name="doctor">
-      <option value="dr_asif">Dr. Asif - Orthopedics,Bone & Joint,Trauma,Sports Injuries</option>
-      <option value="dr_mustafa">Dr. Mustafa - Cardiology Heart,BP,Internal Medicine,Pulmonology</option>
-      <option value="dr_saima">Dr. Saima Firdous - Ophthalmology Eye Checkup,Cataracts,Conjuctivits</option>
+      <option value="dr_asif">Dr. Asif - Orthopedics, Bone & Joint, Trauma, Sports Injuries</option>
+      <option value="dr_mustafa">Dr. Mustafa - Cardiology, Heart, BP, Internal Medicine, Pulmonology</option>
+      <option value="dr_saima">Dr. Saima Firdous - Ophthalmology, Eye Checkup, Cataracts, Conjunctivitis</option>
     </select>
 
+    <label for="specialty">Select Specialty:</label>
+    <select id="specialty" name="specialty" required></select>
 
     <label for="appointment_date">Select Appointment Date:</label>
-    <input type="date" id="appointment_date" name="appointment_date" required />
+    <input type="text" id="appointment_date" name="appointment_date" required />
 
+    <label for="appointment_time">Select Appointment Time:</label>
+    <input type="time" id="appointment_time" name="appointment_time" required />
 
     <p class="note">Note: Dr. Asif and Dr. Saima Firdous are only available on <strong>Wednesdays</strong> after 4:30 PM. <br>
       Dr. Mustafa is only available on <strong>Thursdays</strong> after 4:30 PM.</p>
@@ -212,6 +135,59 @@
   </form>
 
   <script>
+    function updateSpecialtyAndDate() {
+      const doctorSelect = document.getElementById('doctor');
+      const specialtySelect = document.getElementById('specialty');
+      const dateInput = document.getElementById('appointment_date');
+      const timeInput = document.getElementById('appointment_time');
+
+      const specialties = {
+        'dr_asif': ['Bone and Joint', 'Trauma', 'Sports Injuries', 'Paediatric Orthopaedics'],
+        'dr_mustafa': ['Heart', 'BP', 'Cardiology', 'Internal Medicine', 'Pulmonology'],
+        'dr_saima': ['Eye Checkups', 'Cataracts', 'Conjunctivitis']
+      };
+
+      const allowedDays = {
+        'dr_asif': 3,     // Wednesday
+        'dr_mustafa': 4,  // Thursday
+        'dr_saima': 3     // Wednesday
+      };
+
+      const selectedDoctor = doctorSelect.value;
+      const selectedSpecialties = specialties[selectedDoctor];
+      const allowedDay = allowedDays[selectedDoctor];
+
+      // Populate specialties
+      specialtySelect.innerHTML = '';
+      selectedSpecialties.forEach(spec => {
+        const option = document.createElement('option');
+        option.value = spec.toLowerCase().replace(/\s+/g, '_');
+        option.textContent = spec;
+        specialtySelect.appendChild(option);
+      });
+
+      // Reset time field
+      timeInput.value = '';
+      timeInput.min = "16:30";
+
+      // Initialize Flatpickr with restricted days
+      flatpickr("#appointment_date", {
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        maxDate: new Date().fp_incr(60), // 60 days from now
+        disable: [
+          function(date) {
+            return date.getDay() !== allowedDay; // disable all days except allowed
+          }
+        ]
+      });
+    }
+
+    window.onload = function () {
+      updateSpecialtyAndDate();
+      document.getElementById('doctor').addEventListener('change', updateSpecialtyAndDate);
+    };
+
     document.getElementById('appointmentForm').addEventListener('submit', function(e) {
       const name = document.getElementById("patient_name").value;
       const address = document.getElementById("patient_address").value;
@@ -223,9 +199,11 @@
 
       const message = `Appointment Booking:%0AName: ${name}%0AAddress: ${address}%0APhone: ${phone}%0ADoctor: ${doctor}%0ASpecialty: ${specialty}%0ADate: ${date}%0ATime: ${time}`;
 
+      // Redirect to WhatsApp
       window.open(`https://wa.me/918899960923?text=${message}`, '_blank');
     });
   </script>
 </body>
 </html>
+
 
