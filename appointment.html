@@ -31,7 +31,7 @@
       display: block;
       margin-top: 15px;
     }
-    select, input[type="date"], input[type="time"] {
+    select, input[type="date"], input[type="time"], input[type="text"], input[type="tel"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -65,35 +65,34 @@
 
       const specialties = {
         'dr_asif': [
-          'Bone and Joint, Sports Injuries, paediatric orthopaedics',
+          'Bone and Joint',
           'Trauma',
           'Sports Injuries',
           'Paediatric Orthopaedics'
         ],
         'dr_mustafa': [
-          'Heart, BP, Internal Medicine,Pulmonology',
+          'Heart',
           'BP',
           'Cardiology',
           'Internal Medicine',
           'Pulmonology'
         ],
         'dr_saima': [
-          'Eye Checkups, Cataracts, Conjuctivitis',
+          'Eye Checkups',
           'Cataracts',
           'Conjunctivitis'
         ]
       };
 
       const allowedDays = {
-        'dr_asif': 3, // Wednesday
-        'dr_mustafa': 4, // Thursday
-        'dr_saima': 3 // Wednesday
+        'dr_asif': 3,
+        'dr_mustafa': 4,
+        'dr_saima': 3
       };
 
       const selectedDoctor = doctorSelect.value;
       const selectedSpecialties = specialties[selectedDoctor];
 
-      // Update specialties
       specialtySelect.innerHTML = '';
       selectedSpecialties.forEach(spec => {
         const option = document.createElement('option');
@@ -102,7 +101,6 @@
         specialtySelect.appendChild(option);
       });
 
-      // Restrict date input
       dateInput.value = '';
       dateInput.oninput = function () {
         const selectedDate = new Date(this.value);
@@ -112,7 +110,6 @@
         }
       };
 
-      // Set minimum time
       timeInput.value = '';
       timeInput.min = "16:30";
     }
@@ -129,7 +126,16 @@
     <p>Zikra Healthcare - A Multispeciality Diagnostic and Clinical Laboratory Center</p>
   </header>
 
-  <form>
+  <form id="appointmentForm" action="https://formspree.io/f/xldledgn" method="POST">
+    <label for="patient_name">Patient Name:</label>
+    <input type="text" id="patient_name" name="patient_name" required />
+
+    <label for="patient_address">Patient Address:</label>
+    <input type="text" id="patient_address" name="patient_address" required />
+
+    <label for="patient_phone">Phone Number:</label>
+    <input type="tel" id="patient_phone" name="patient_phone" pattern="[0-9]{10}" required />
+
     <label for="doctor">Select Doctor:</label>
     <select id="doctor" name="doctor">
       <option value="dr_asif">Dr. Asif - Orthopedics (Available Wednesdays after 4:30 PM)</option>
@@ -145,11 +151,29 @@
     <label for="appointment_date">Select Appointment Date:</label>
     <input type="date" id="appointment_date" name="appointment_date" required />
 
+    <label for="appointment_time">Select Appointment Time:</label>
+    <input type="time" id="appointment_time" name="appointment_time" min="16:30" required />
 
     <p class="note">Note: Dr. Asif and Dr. Saima Firdous are only available on <strong>Wednesdays</strong> after 4:30 PM. <br>
       Dr. Mustafa is only available on <strong>Thursdays</strong> after 4:30 PM.</p>
 
     <button type="submit">Submit</button>
   </form>
+
+  <script>
+    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+      const name = document.getElementById("patient_name").value;
+      const address = document.getElementById("patient_address").value;
+      const phone = document.getElementById("patient_phone").value;
+      const doctor = document.getElementById("doctor").selectedOptions[0].text;
+      const specialty = document.getElementById("specialty").selectedOptions[0].text;
+      const date = document.getElementById("appointment_date").value;
+      const time = document.getElementById("appointment_time").value;
+
+      const message = `Appointment Booking:%0AName: ${name}%0AAddress: ${address}%0APhone: ${phone}%0ADoctor: ${doctor}%0ASpecialty: ${specialty}%0ADate: ${date}%0ATime: ${time}`;
+
+      window.open(`https://wa.me/918899960923?text=${message}`, '_blank');
+    });
+  </script>
 </body>
 </html>
