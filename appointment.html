@@ -114,9 +114,9 @@
 
     <label for="doctor">Select Doctor:</label>
     <select id="doctor" name="doctor">
-      <option value="dr_asif">Dr. Asif -MBBS MS Orthopedics SKIMS</option>
+      <option value="dr_asif">Dr. Asif -MBBS MS Orthopedics SKIMS,Ex.Registrar RMRI</option>
       <option value="dr_mustafa">Dr. Mustafa -MBBS,MD ,DM/DrNB Cardiology</option>
-      <option value="dr_saima">Dr. Saima Firdous -MBBS,MS Ophthalmology SKIMS</option>
+      <option value="dr_saima">Dr. Saima Firdous -MBBS,MS Ophthalmology SKIMS,Ex.Registrar RMRI</option>
     </select>
 
     <label for="specialty">Select Specialty:</label>
@@ -143,8 +143,8 @@
 
       const specialties = {
         'dr_asif': ['Bone and Joint,Trauma, Sports Injuries,Paediatric Orthopaedics', 'Trauma', 'Sports Injuries', 'Paediatric Orthopaedics'],
-        'dr_mustafa': ['Heart', 'BP', 'Cardiology', 'Internal Medicine', 'Pulmonology'],
-        'dr_saima': ['Eye Checkups', 'Cataracts', 'Conjunctivitis']
+        'dr_mustafa': ['Heart,BP,Cardiology,Interna; Medicine,Pulmonology', 'BP', 'Cardiology', 'Internal Medicine', 'Pulmonology'],
+        'dr_saima': ['Eye Checkups,Cataracts,Conjuctivitis,Strabismus,Glaucoma', 'Cataracts', 'Conjunctivitis']
       };
 
       const allowedDays = {
@@ -192,7 +192,6 @@
       const doctor = document.getElementById("doctor").selectedOptions[0].text;
       const specialty = document.getElementById("specialty").selectedOptions[0].text;
       const date = document.getElementById("appointment_date").value;
-      const time = document.getElementById("appointment_time").value;
 
       const message = `Appointment Booking:%0AName: ${name}%0AAddress: ${address}%0APhone: ${phone}%0ADoctor: ${doctor}%0ASpecialty: ${specialty}%0ADate: ${date}%0ATime: ${time}`;
 
