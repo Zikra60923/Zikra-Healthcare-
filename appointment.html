@@ -114,9 +114,9 @@
 
     <label for="doctor">Select Doctor:</label>
     <select id="doctor" name="doctor">
-      <option value="dr_asif">Dr. Asif - Orthopedics, Bone & Joint, Trauma, Sports Injuries</option>
-      <option value="dr_mustafa">Dr. Mustafa - Cardiology, Heart, BP, Internal Medicine, Pulmonology</option>
-      <option value="dr_saima">Dr. Saima Firdous - Ophthalmology, Eye Checkup, Cataracts, Conjunctivitis</option>
+      <option value="dr_asif">Dr. Asif -MBBS MS Orthopedics SKIMS</option>
+      <option value="dr_mustafa">Dr. Mustafa -MBBS,MD ,DM/DrNB Cardiology</option>
+      <option value="dr_saima">Dr. Saima Firdous -MBBS,MS Ophthalmology SKIMS</option>
     </select>
 
     <label for="specialty">Select Specialty:</label>
@@ -142,7 +142,7 @@
       const timeInput = document.getElementById('appointment_time');
 
       const specialties = {
-        'dr_asif': ['Bone and Joint', 'Trauma', 'Sports Injuries', 'Paediatric Orthopaedics'],
+        'dr_asif': ['Bone and Joint,Trauma, Sports Injuries,Paediatric Orthopaedics', 'Trauma', 'Sports Injuries', 'Paediatric Orthopaedics'],
         'dr_mustafa': ['Heart', 'BP', 'Cardiology', 'Internal Medicine', 'Pulmonology'],
         'dr_saima': ['Eye Checkups', 'Cataracts', 'Conjunctivitis']
       };
@@ -166,9 +166,6 @@
         specialtySelect.appendChild(option);
       });
 
-      // Reset time field
-      timeInput.value = '';
-      timeInput.min = "16:30";
 
       // Initialize Flatpickr with restricted days
       flatpickr("#appointment_date", {
