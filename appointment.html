@@ -77,95 +77,95 @@
       background-color: #004d40;
     }
   </style>
-  <script>
-    function updateSpecialtyAndDate() {
-      const doctorSelect = document.getElementById('doctor');
-      const specialtySelect = document.getElementById('specialty');
-      const dateInput = document.getElementById('appointment_date');
-      const timeInput = document.getElementById('appointment_time');
+ <script>
+  function updateSpecialtyAndDate() {
+    const doctorSelect = document.getElementById('doctor');
+    const specialtySelect = document.getElementById('specialty');
+    const dateInput = document.getElementById('appointment_date');
+    const timeInput = document.getElementById('appointment_time');
 
-      const specialties = {
-        'dr_asif': [
-          'Bone and Joint',
-          'Trauma',
-          'Sports Injuries',
-          'Paediatric Orthopaedics'
-        ],
-        'dr_mustafa': [
-          'Heart',
-          'BP',
-          'Cardiology',
-          'Internal Medicine',
-          'Pulmonology'
-        ],
-        'dr_saima': [
-          'Eye Checkups',
-          'Cataracts',
-          'Conjunctivitis'
-        ]
-      };
-
-      const allowedDays = {
-        'dr_asif': 3,
-        'dr_mustafa': 4,
-        'dr_saima': 3
-      };
-
-      const selectedDoctor = doctorSelect.value;
-      const selectedSpecialties = specialties[selectedDoctor];
-
-      specialtySelect.innerHTML = '';
-      selectedSpecialties.forEach(spec => {
-        const option = document.createElement('option');
-        option.value = spec.toLowerCase().replace(/\s+/g, '_');
-        option.textContent = spec;
-        specialtySelect.appendChild(option);
-      });
-
-      dateInput.value = '';
-     function disableInvalidDates() {
-  const doctorSelect = document.getElementById('doctor');
-  const dateInput = document.getElementById('appointment_date');
-  const selectedDoctor = doctorSelect.value;
-
-  const allowedDay = {
-    'dr_asif': 3,     // Wednesday
-    'dr_mustafa': 4,  // Thursday
-    'dr_saima': 3     // Wednesday
-  }[selectedDoctor];
-
-  dateInput.value = '';
-  const today = new Date();
-  const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 2); // Limit to next 2 months
-
-  const min = today.toISOString().split("T")[0];
-  const max = maxDate.toISOString().split("T")[0];
-
-  dateInput.setAttribute("min", min);
-  dateInput.setAttribute("max", max);
-
-  dateInput.addEventListener('input', function () {
-    const selected = new Date(this.value);
-    if (selected.getDay() !== allowedDay) {
-      alert("Selected doctor is only available on " +
-        ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][allowedDay]);
-      this.value = '';
-    }
-  });
-}
-
-      timeInput.value = '';
-      timeInput.min = "16:30";
-    }
-
-    window.onload = function () {
-      updateSpecialtyAndDate();
-      document.getElementById('doctor').addEventListener('change', updateSpecialtyAndDate);
+    const specialties = {
+      'dr_asif': [
+        'Bone and Joint',
+        'Trauma',
+        'Sports Injuries',
+        'Paediatric Orthopaedics'
+      ],
+      'dr_mustafa': [
+        'Heart',
+        'BP',
+        'Cardiology',
+        'Internal Medicine',
+        'Pulmonology'
+      ],
+      'dr_saima': [
+        'Eye Checkups',
+        'Cataracts',
+        'Conjunctivitis'
+      ]
     };
-    disableInvalidDates();
-    
-  </script>
+
+    const selectedDoctor = doctorSelect.value;
+    const selectedSpecialties = specialties[selectedDoctor];
+
+    // Clear and add specialties
+    specialtySelect.innerHTML = '';
+    selectedSpecialties.forEach(spec => {
+      const option = document.createElement('option');
+      option.value = spec.toLowerCase().replace(/\s+/g, '_');
+      option.textContent = spec;
+      specialtySelect.appendChild(option);
+    });
+
+    // Reset date & time inputs
+    dateInput.value = '';
+    timeInput.value = '';
+    timeInput.min = "16:30";
+
+    // Restrict available dates based on doctor
+    disableInvalidDates();  // ✅ PLACE IT HERE
+  }
+
+  function disableInvalidDates() {
+    const doctorSelect = document.getElementById('doctor');
+    const dateInput = document.getElementById('appointment_date');
+    const selectedDoctor = doctorSelect.value;
+
+    const allowedDay = {
+      'dr_asif': 3,     // Wednesday
+      'dr_mustafa': 4,  // Thursday
+      'dr_saima': 3     // Wednesday
+    }[selectedDoctor];
+
+    // Set min and max date range
+    dateInput.value = '';
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 2);
+
+    const min = today.toISOString().split("T")[0];
+    const max = maxDate.toISOString().split("T")[0];
+
+    dateInput.setAttribute("min", min);
+    dateInput.setAttribute("max", max);
+
+    // Check selected date
+    dateInput.oninput = function () {
+      const selected = new Date(this.value);
+      if (selected.getDay() !== allowedDay) {
+        alert("Selected doctor is only available on " +
+          ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][allowedDay]);
+        this.value = '';
+      }
+    };
+  }
+
+  window.onload = function () {
+    updateSpecialtyAndDate();
+    document.getElementById('doctor').addEventListener('change', updateSpecialtyAndDate);
+  };
+</script>
+
 </head>
 <body>
   <header>
