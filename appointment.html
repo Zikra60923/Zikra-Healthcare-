@@ -123,13 +123,37 @@
       });
 
       dateInput.value = '';
-      dateInput.oninput = function () {
-        const selectedDate = new Date(this.value);
-        if (selectedDate.getDay() !== allowedDays[selectedDoctor]) {
-          alert("This doctor is only available on " + ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][allowedDays[selectedDoctor]] + ". Please choose a valid day.");
-          this.value = '';
-        }
-      };
+     function disableInvalidDates() {
+  const doctorSelect = document.getElementById('doctor');
+  const dateInput = document.getElementById('appointment_date');
+  const selectedDoctor = doctorSelect.value;
+
+  const allowedDay = {
+    'dr_asif': 3,     // Wednesday
+    'dr_mustafa': 4,  // Thursday
+    'dr_saima': 3     // Wednesday
+  }[selectedDoctor];
+
+  dateInput.value = '';
+  const today = new Date();
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 2); // Limit to next 2 months
+
+  const min = today.toISOString().split("T")[0];
+  const max = maxDate.toISOString().split("T")[0];
+
+  dateInput.setAttribute("min", min);
+  dateInput.setAttribute("max", max);
+
+  dateInput.addEventListener('input', function () {
+    const selected = new Date(this.value);
+    if (selected.getDay() !== allowedDay) {
+      alert("Selected doctor is only available on " +
+        ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][allowedDay]);
+      this.value = '';
+    }
+  });
+}
 
       timeInput.value = '';
       timeInput.min = "16:30";
